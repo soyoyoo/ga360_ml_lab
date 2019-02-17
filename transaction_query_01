@@ -1,0 +1,11 @@
+SELECT 
+  fullVisitorId,
+  CONCAT(SUBSTR(date,1,4),'-',SUBSTR(date,5,2),'-',SUBSTR(date,7,2)) AS date,
+  sum(totals.transactionRevenue) as transactionRevenue
+FROM
+  `bigquery-public-data.google_analytics_sample.ga_sessions_*`
+WHERE
+  (_TABLE_SUFFIX >= '20170201' AND _TABLE_SUFFIX <= '20170801') AND
+  totals.transactions IS NOT NULL
+  GROUP BY 1,2
+  ORDER BY date desc
